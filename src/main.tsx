@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { SearchSuperherosPage } from '~pages/superhero/search-superheros-page';
+import { MainPage } from '~pages/superhero/main-page';
 import { SuperheroPage } from '~pages/superhero/superhero-page';
 
 import { Layout } from './app/layout/layout';
@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route path="/" element={<SearchSuperherosPage />} />
+            <Route path="/" element={<MainPage />} />
             <Route path=":id" element={<SuperheroPage />} />
           </Routes>
         </Layout>

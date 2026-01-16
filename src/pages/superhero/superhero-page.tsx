@@ -122,7 +122,7 @@ export function SuperheroPage() {
 
       <section className="mb-6">
         <h2 className="mb-2 text-2xl font-semibold">Connections</h2>
-        
+
         <p>
           <strong>Group Affiliation:</strong>{' '}
           {superhero.connections?.['group-affiliation']}
