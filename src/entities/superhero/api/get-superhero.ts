@@ -1,11 +1,13 @@
 import { config } from '~shared/config';
-import { ResponseError, ResponseSuccess } from '~shared/response';
+import { Response } from '~shared/response';
 
 import { skipToken, useQuery } from '@tanstack/react-query';
 
 import { superheroKeys } from './keys';
 
 import { Superhero } from '../superhero';
+
+export type GetSuperheroResponse = Response<Superhero>;
 
 export type Params = {
   id?: string;
@@ -17,27 +19,21 @@ export function useSuperhero(params: Params) {
   return useQuery({
     queryKey: superheroKeys.superhero(id ?? ''),
     queryFn: id
-      ? async () => {
-          const response: ResponseSuccess<Superhero> = await fetch(
+      ? async (): Promise<GetSuperheroResponse> => {
+          const res = await fetch(
             `${config.apiHost}/api/${config.apiToken}/${id}`,
             {
               headers: {
                 'Content-Type': 'application/json',
               },
             }
-          ).then(async (res) => {
-            if (!res.ok) {
-              const error: ResponseError = await res.json();
+          );
 
-              throw new Error(
-                `Error ${res.status}: ${res.statusText} - ${error.error}`
-              );
-            }
+          if (!res.ok) {
+            throw new Error(`HTTP Error: ${res.status} ${res.statusText}`);
+          }
 
-            return res.json();
-          });
-
-          return response;
+          return res.json();
         }
       : skipToken,
   });

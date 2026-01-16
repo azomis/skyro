@@ -1,9 +1,27 @@
-# web-interview-tasks
+# Superhero Directory
 
-A set of web interview tasks for front-end developers.
 
-## Tasks
+This project is a React web application built using [Vite](https://vite.dev/), with [Tailwind CSS](https://tailwindcss.com/) for styling.
 
-### Superhero Directory
+## Install dependencies
 
-A simple web application that displays a list of superheroes. The application should allow users to search superheroes by name and view details about each superhero.
+Run installation with selected package manager `npm install`
+
+## Create .env file
+
+Copy .env.example to .env.local and set the environment variables.
+
+```bash
+cp .env.example .env.local
+```
+
+Then go to <https://superheroapi.com/>, generate a new API key and set it in the `.env.local` file.
+
+```bash
+
+## Usage
+
+- `npm start` - run development server
+- `npm build` - production build
+
+Open an example superhero page at <http://localhost:5173/63>.
