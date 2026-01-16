@@ -7,6 +7,7 @@ import { SuperheroPage } from '~pages/superhero/superhero-page';
 import { Layout } from './app/layout/layout';
 import { Providers } from './app/providers';
 import './root.css';
+import { MainSearchPage } from '~pages/superhero/main-search-page';
 
 function App() {
   return (
@@ -14,20 +15,8 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <h1 className="font-display text-center text-4xl">
-                    Superhero Directory
-                  </h1>
-                  <p>
-                    Welcome to the Superhero Directory! Here you can find
-                    information about your favorite superheroes.
-                  </p>
-                </>
-              }
-            />
+            <Route path="/" element={<MainSearchPage />} />
+            
             <Route path=":id" element={<SuperheroPage />} />
           </Routes>
         </Layout>
