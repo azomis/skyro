@@ -2,12 +2,12 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import { MainPage } from '~pages/superhero/main-page';
 import { SuperheroPage } from '~pages/superhero/superhero-page';
 
 import { Layout } from './app/layout/layout';
 import { Providers } from './app/providers';
 import './root.css';
-import { MainSearchPage } from '~pages/superhero/main-search-page';
 
 function App() {
   return (
@@ -15,8 +15,8 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route path="/" element={<MainSearchPage />} />
-            
+            <Route path="/" element={<MainPage />} />
+
             <Route path=":id" element={<SuperheroPage />} />
           </Routes>
         </Layout>

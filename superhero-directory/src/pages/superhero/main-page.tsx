@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import { superheroApi } from '~entities/superhero';
@@ -6,9 +6,10 @@ import { superheroApi } from '~entities/superhero';
 import { debounce } from '~shared/lib/debounce';
 import { ErrorCard } from '~shared/ui';
 
-export function MainSearchPage() {
+export function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('q') ?? '';
+  const query = searchParams.get('q') || '';
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const {
     data: superheros,
@@ -16,31 +17,27 @@ export function MainSearchPage() {
     error,
   } = superheroApi.useSearchSuperheros({ query });
 
-  const [inputValue, setInputValue] = useState(query);
-
   const debouncedSetParams = useMemo(
     () =>
       debounce(
-        (value) => setSearchParams(value ? { q: value as string } : {}),
+        (value: string) =>
+          setSearchParams(value ? { q: value } : {}, { replace: true }),
         300
       ),
     [setSearchParams]
   );
 
   useEffect(() => {
-    debouncedSetParams(inputValue);
-  }, [inputValue, debouncedSetParams]);
-
-  useEffect(() => {
-    setInputValue(query);
+    if (inputRef.current) inputRef.current.value = query;
   }, [query]);
 
   return (
     <div className="mx-auto max-w-2xl p-6">
       <input
         type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        ref={inputRef}
+        defaultValue={query}
+        onChange={(e) => debouncedSetParams(e.target.value)}
         placeholder="Search superheroes..."
         className="mb-6 w-full rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
       />
@@ -58,7 +55,7 @@ export function MainSearchPage() {
         <ErrorCard icon="🔍" title="Not found" message={superheros.error} />
       )}
 
-      {!inputValue && !isLoading && (
+      {!query && !isLoading && (
         <p className="text-center text-gray-500">Enter a name to search</p>
       )}
 
@@ -88,7 +85,7 @@ export function MainSearchPage() {
 
                 <div>
                   <h2 className="text-lg font-semibold">{hero.name}</h2>
-                  
+
                   <p className="text-sm text-gray-600">
                     {hero.biography['full-name']}
                   </p>
